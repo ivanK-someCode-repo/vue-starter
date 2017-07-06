@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ivanK-someCode-repo/vue-widg.git"
+    "url": "git+https://github.com/ivanK-someCode-repo/vue-starter.git"
   },
   "keywords": [
     "Vue",
@@ -17,9 +17,9 @@
   "author": "Kamenkov Ioann",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ivanK-someCode-repo/vue-widg/issues"
+    "url": "https://github.com/ivanK-someCode-repo/vue-starter/issues"
   },
-  "homepage": "https://github.com/ivanK-someCode-repo/vue-widg#readme",
+  "homepage": "https://github.com/ivanK-someCode-repo/vue-starter#readme",
   "dependencies": {
     "vue": "^2.2.4",
     "vue-router": "^2.3.0",
