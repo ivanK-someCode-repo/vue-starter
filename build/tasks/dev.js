@@ -32,10 +32,19 @@ module.exports = function(gulp, config){
             .pipe(gulp.dest(config.DIST));
     });
 
-    gulp.task('vendor', function() {
-        return gulp.src(config.jslibsPaths)
-            .pipe(concat('vendor.js'))
+    // gulp.task('vendor', function() {
+    //     return gulp.src(config.jslibsPaths)
+    //         .pipe(concat('vendor.js'))
+    //         .pipe(gulp.dest(config.DIST));
+    // });
+
+    gulp.task('vendor', () => {
+        return browserify(['vendor-index.js'])
+            .transform(babelify)
+            .bundle()
+            .pipe(source('vendor.js'))
             .pipe(gulp.dest(config.DIST));
+                //.pipe(buffer())     // You need this if you want to continue using the stream with other plugins
     });
 
     gulp.task('js', function() {
