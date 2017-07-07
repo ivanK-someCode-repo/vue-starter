@@ -43,6 +43,6 @@ gulp.task('app', () => {
         .transform(vueify)
         .bundle()
         .pipe(source('app.js'))
-        .pipe(gulp.dest('../public'));
+        .pipe(gulp.dest('./bundle'));
     //.pipe(buffer())     // You need this if you want to continue using the stream with other plugins
 });
