@@ -40,6 +40,7 @@ gulp.task('vendor', () => {
 
 gulp.task('app', () => {
     return browserify(['src/app-index.js'])
+        .transform(babelify)
         .transform(vueify)
         .bundle()
         .pipe(source('app.js'))
