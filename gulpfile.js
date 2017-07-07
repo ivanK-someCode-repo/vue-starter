@@ -26,6 +26,7 @@ const gulp = require('gulp');
 const babelify = require('babelify');
 const browserify = require('browserify');
 const source = require('vinyl-source-stream');
+const vuefy = require('vuefy');
 //const buffer = require('vinyl-buffer');
 
 gulp.task('vendor', () => {
@@ -33,6 +34,15 @@ gulp.task('vendor', () => {
         .transform(babelify)
         .bundle()
         .pipe(source('vendor.js'))
+        .pipe(gulp.dest('../public'));
+    //.pipe(buffer())     // You need this if you want to continue using the stream with other plugins
+});
+
+gulp.task('app', () => {
+    return browserify(['app-index.js'])
+        .transform(vuefy)
+        .bundle()
+        .pipe(source('app.js'))
         .pipe(gulp.dest('../public'));
     //.pipe(buffer())     // You need this if you want to continue using the stream with other plugins
 });
