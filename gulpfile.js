@@ -30,7 +30,7 @@ const vuefy = require('vuefy');
 //const buffer = require('vinyl-buffer');
 
 gulp.task('vendor', () => {
-    return browserify(['vendor-index.js'])
+    return browserify(['src/vendor-index.js'])
         .transform(babelify)
         .bundle()
         .pipe(source('vendor.js'))
@@ -39,7 +39,7 @@ gulp.task('vendor', () => {
 });
 
 gulp.task('app', () => {
-    return browserify(['app-index.js'])
+    return browserify(['src/app-index.js'])
         .transform(vuefy)
         .bundle()
         .pipe(source('app.js'))
