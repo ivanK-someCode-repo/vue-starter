@@ -2,23 +2,23 @@
 	<div class="not-found">
 		<div class="not-found__text">{{text}}</div>
 			<div>
-			<button @click="goToIndex">Туда</button>
+			<button @click="goToIndex">РІРѕР·РІСЂР°С‚</button>
 		</div>
 	</div>
 </template>
 
 <script>
-import router from '@/router';
+
 export default {
 	name: 'not-found',
 	data () {
 		return {
-			text: 'Не там, где надо? Не беда! Кликай по кнопке)'
+			text: 'РёРЅРѕРіРґР° РµСЃС‚СЊ С€Р°РЅСЃ РёР·Р±РµР¶Р°С‚СЊ РЅРµРѕР±СЂР°С‚РёРјС‹С… РїРѕСЃР»РµРґСЃС‚РІРёР№, Р¶РјРё "РІРѕР·РІСЂР°С‚"'
 		}
 	},
 	methods: {
 		goToIndex(){
-			router.push({name: 'index'});
+			Router.push({name: 'index'});
 		}
 	}
 }

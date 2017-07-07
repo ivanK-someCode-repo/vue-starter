@@ -1,21 +1,25 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Index from '../components/index.vue';
-import NotFoundComponent from '../components/common/404.vue';
+import Index from '../components/index/index.vue';
+import NotFound from '../components/common/404.vue';
 Vue.use(Router);
 
 export default new Router({
 	routes: [
 		{
-			path: '/404', component: NotFoundComponent
+			path: '/404',
+			component: NotFound
 		},
 		{
-			path: '/',
+			path: '',
 			name: 'index',
-			component: Index
+            components: {
+                default: Index,
+                //nav: Nav,
+                //main: Main
+            }
 		},
 		{
-			path: '*', redirect: '/404'
+			path: '*',
+			redirect: '/404'
 		}
 	]
 });

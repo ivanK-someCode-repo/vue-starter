@@ -1,5 +1,3 @@
-import axios from 'axios';
-import router from '@/router/index'
 import { ERROR_STATUSES } from './config';
 
 //Basic global ultimate object
@@ -19,7 +17,7 @@ function popRequest (req) {
 	http.pendingRequests.splice(index, 1);
 }
 
-const cancelCreator = axios.CancelToken;
+const cancelCreator = Axios.CancelToken;
 let flushFunc,
 	cancelToken = new cancelCreator((c) => flushFunc = c);
 
@@ -35,13 +33,13 @@ const default_interceptors = [{
 	},
 	error: function (error) {
 		popRequest(error.config);
-		router.push('login');
+		Router.push('login');
 		console.log('logout', error, error.response, error.request, error.message, error.config);
 		return Promise.reject(error);
 	}
 }];
 function RestCreator (settings) {
-	let service = axios.create({
+	let service = Axios.create({
 		responseType: 'json',
 		headers: {
 			'Accept': 'application/json',

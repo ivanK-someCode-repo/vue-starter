@@ -6,10 +6,10 @@
 
 <script>
 export default {
-	name: 'test',
+	name: 'index',
 	data: function () {
 		return {
-			msg2: 'test'
+			msg2: 'test msg'
 		};
 	},
 	computed: {
