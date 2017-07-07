@@ -2,12 +2,7 @@
 
 const cssnano = require('gulp-cssnano');
 const concat = require('gulp-concat');
-const sourcemaps = require('gulp-sourcemaps');
-const gulpIf = require('gulp-if');
-//const debug = require('gulp-debug');
-//const path = require('path');
 const uglify = require('gulp-uglify');
-//const source = require('vinyl-source-stream');
 const CacheBuster = require('gulp-cachebust');
 const cachebust = new CacheBuster();
 

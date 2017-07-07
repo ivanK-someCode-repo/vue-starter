@@ -2,13 +2,10 @@
 
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
-const gulpIf = require('gulp-if');
 //const debug = require('gulp-debug');
 //const path = require('path');
-const uglify = require('gulp-uglify');
 //const source = require('vinyl-source-stream');
-const CacheBuster = require('gulp-cachebust');
-const cachebust = new CacheBuster();
+const uglify = require('gulp-uglify');
 
 const postcss = require('gulp-postcss');
 const precss = require('precss');
@@ -70,8 +67,7 @@ module.exports = function(gulp, config){
     });
 
     return [
-        gulp.parallel('styles', 'vendor', 'js', 'assets')
-        ,'html'
+        gulp.parallel('styles', 'vendor', 'js', 'assets','html')
         //,'watch'
     ];
 
