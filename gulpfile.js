@@ -26,7 +26,7 @@ const gulp = require('gulp');
 const babelify = require('babelify');
 const browserify = require('browserify');
 const source = require('vinyl-source-stream');
-const vuefy = require('vuefy');
+const vueify = require('vueify');
 //const buffer = require('vinyl-buffer');
 
 gulp.task('vendor', () => {
@@ -40,7 +40,7 @@ gulp.task('vendor', () => {
 
 gulp.task('app', () => {
     return browserify(['src/app-index.js'])
-        .transform(vuefy)
+        .transform(vueify)
         .bundle()
         .pipe(source('app.js'))
         .pipe(gulp.dest('../public'));
