@@ -1,11 +1,11 @@
-var src = './front/';
+let src = '../src/';
+
 module.exports = {
-  DIST: './public',
+  DIST: '../public',
   SRC_BASE: src,
   allFiles: src + '**/*.*',
   indexHtmlPath: src + 'index.html',
-  jsPaths: [src +'js/**/*.js'],
-  jslibsPaths: [src + 'vendor/**/{vue,vue-router}.min.js'],
-  stylesPaths: [src +'**/*.less'],
+  jsPaths: [src +'**/*.js'],
+  stylesPaths: [src +'**/*.pcss'],
   assetsPaths: [src+'**/*.{gif,ico,png,jpg,jpeg,woff,eot,ttf,svg}']
 };
