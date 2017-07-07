@@ -34,7 +34,7 @@ gulp.task('vendor', () => {
         .transform(babelify)
         .bundle()
         .pipe(source('vendor.js'))
-        .pipe(gulp.dest('../public'));
+        .pipe(gulp.dest('./public'));
     //.pipe(buffer())     // You need this if you want to continue using the stream with other plugins
 });
 
