@@ -4,7 +4,9 @@ Features:
 * [vue2](https://github.com/vuejs/vue)
 * [vuex](https://github.com/vuejs/vuex)
 * [vue-router](https://github.com/vuejs/vue-router)
-* [webpack](https://github.com/webpack/webpack)
+* [axious](https://github.com/mzabriskie/axios)
+* [gulp](https://github.com/gulpjs/gulp/tree/4.0)
+* [browserify](http://browserify.org/)
 * [babel](https://github.com/babel/babel)
 * [postcss](https://github.com/postcss/postcss)
 * [testcafe](https://github.com/DevExpress/testcafe)
@@ -13,7 +15,16 @@ Features:
 
 Install:
 
-* [gulp](https://github.com/gulp)
-
-      Global:          npm uninstall gulp -g && npm install gulpjs/gulp-cli#4.0 -g
-      Within project:  npm uninstall gulp && npm install gulpjs/gulp.git#4.0 --save-dev
+    1) Nodejs:              https://nodejs.org/en/#download
+    
+    2) Latest npm:          https://docs.npmjs.com/getting-started/installing-node
+    
+    3) Global gulp:         npm uninstall gulp -g && npm install gulpjs/gulp-cli#4.0 -g
+    
+    4) Within project gulp: npm uninstall gulp && npm install gulpjs/gulp.git#4.0 --save-dev
+    
+    5) npm install
+    
+    6) set NODE_ENV=production
+    
+    6) gulp

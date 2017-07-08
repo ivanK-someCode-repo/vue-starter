@@ -81,5 +81,4 @@ module.exports = function(gulp, config){
         gulp.parallel( 'styles','vendor', 'app', 'assets', 'html') //
         //,'watch'
     ];
-
 };

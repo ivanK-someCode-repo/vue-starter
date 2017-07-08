@@ -75,5 +75,4 @@ module.exports = function(gulp, config){
         gulp.parallel( 'vendor', 'app', 'assets') //'styles',
         ,'html'
     ];
-
 };

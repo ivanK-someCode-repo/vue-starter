@@ -10,18 +10,9 @@ let tasks = [];
 packs.push(require('./build/tasks/common.js'));
 packs.push(isDevelopment ? require('./build/tasks/development.js') : require('./build/tasks/production.js'));
 
-
-console.log(packs);
-
 packs.forEach( (item, index) => {
-    console.log(item);
-
-	console.log(item(gulp, config));
-
 	tasks = tasks.concat(item(gulp, config));
 });
-
-console.log(tasks);
 
 // gulp.task('watch', function(){
 //     gulp.watch(config.allFiles, gulp.series(tasks));
