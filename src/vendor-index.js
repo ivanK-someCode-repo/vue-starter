@@ -5,5 +5,5 @@ import Vuex from 'vuex';
 
 window.Vue = Vue;
 window.Axios = Axios;
-window.VueRouter = VueRouter;
+window.Router = VueRouter;
 window.Vuex = Vuex;

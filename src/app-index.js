@@ -3,15 +3,17 @@ import router from './router';
 import store from './store';
 import rest from './rest';
 
-Vue.prototype.$http = rest;
-Vue.prototype.axios = axios;
+window.document.addEventListener('DOMContentLoaded', function () {
+	Vue.prototype.$http = rest;
+	Vue.prototype.axios = Axios;
 
-Vue.config.productionTip = false;
+	Vue.config.productionTip = false;
 
-new Vue({
-	el: '#app',
-	store,
-	router,
-	template: '<App/>',
-	components: {App}
+	new Vue({
+		el: '#app',
+		store,
+		router,
+		template: '<App/>',
+		components: {App}
+	});
 });
