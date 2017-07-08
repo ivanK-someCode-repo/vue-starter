@@ -29,7 +29,7 @@ module.exports = function(gulp, config){
             postcssSimpleVars(),
             postcssNested()
         ];
-        return gulp.src(config.stylesPath)
+        return gulp.src(config.stylesPaths)
             .pipe(postcss(plugins))
             .pipe(cssnano({ minifyFontValues: false, discardUnused: false }))
             .pipe(concat('app.css'))

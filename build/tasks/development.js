@@ -29,7 +29,7 @@ module.exports = function(gulp, config){
             postcssNested()
         ];
 
-        return gulp.src(config.stylesPath)
+        return gulp.src(config.stylesPaths)
             .pipe(sourcemaps.init())
             .pipe(postcss(plugins))
             .pipe(concat('app.css'))
@@ -78,7 +78,7 @@ module.exports = function(gulp, config){
     });
 
     return [
-        gulp.parallel( 'vendor', 'app', 'assets', 'html') //'styles',
+        gulp.parallel( 'styles','vendor', 'app', 'assets', 'html') //
         //,'watch'
     ];
 
