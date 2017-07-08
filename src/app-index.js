@@ -14,6 +14,9 @@ window.document.addEventListener('DOMContentLoaded', function () {
 		store,
 		router,
 		template: '<App/>',
-		components: {App}
+		components: {App},
+		render: function (createElement) {
+			return createElement(App)
+		}
 	});
 });

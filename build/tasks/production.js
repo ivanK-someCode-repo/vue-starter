@@ -72,7 +72,7 @@ module.exports = function(gulp, config){
     });
 
     return [
-        gulp.parallel( 'vendor', 'app', 'assets') //'styles',
+        gulp.parallel( 'styles', 'vendor', 'app', 'assets')
         ,'html'
     ];
 };
