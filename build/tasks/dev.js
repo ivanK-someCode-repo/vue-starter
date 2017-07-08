@@ -6,6 +6,10 @@ const sourcemaps = require('gulp-sourcemaps');
 //const path = require('path');
 //const source = require('vinyl-source-stream');
 const uglify = require('gulp-uglify');
+const babelify = require('babelify');
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
+const vueify = require('vueify');
 
 const postcss = require('gulp-postcss');
 const precss = require('precss');
@@ -24,6 +28,7 @@ module.exports = function(gulp, config){
             postcssSimpleVars(),
             postcssNested()
         ];
+        
         return gulp.src(config.stylesPath)
             .pipe(sourcemaps.init())
             .pipe(postcss(plugins))
@@ -32,27 +37,27 @@ module.exports = function(gulp, config){
             .pipe(gulp.dest(config.DIST));
     });
 
-    // gulp.task('vendor', function() {
-    //     return gulp.src(config.jslibsPaths)
-    //         .pipe(concat('vendor.js'))
-    //         .pipe(gulp.dest(config.DIST));
-    // });
-
     gulp.task('vendor', () => {
-        return browserify(['vendor-index.js'])
+        return browserify(config.jsVendorEntryPointPaths)
             .transform(babelify)
             .bundle()
+			.pipe(sourcemaps.init())
             .pipe(source('vendor.js'))
+			.pipe(sourcemaps.write('maps'))
             .pipe(gulp.dest(config.DIST));
-                //.pipe(buffer())     // You need this if you want to continue using the stream with other plugins
+        //.pipe(buffer())     // You need this if you want to continue using the stream with other plugins
     });
 
-    gulp.task('js', function() {
-       return gulp.src(config.jsPaths)
-           .pipe(sourcemaps.init())
-           .pipe(concat('app.js'))
-           .pipe(sourcemaps.write('.'))
-           .pipe(gulp.dest(config.DIST));
+    gulp.task('app', () => {
+        return browserify(config.jsAppEntryPointPaths)
+            .transform(babelify)
+            .transform(vueify)
+            .bundle()
+			.pipe(sourcemaps.init())
+            .pipe(source('app.js'))
+			.pipe(sourcemaps.write('maps'))
+            .pipe(gulp.dest(config.DIST));
+        //.pipe(buffer())     // You need this if you want to continue using the stream with other plugins
     });
 
     gulp.task('assets', function(){
@@ -76,7 +81,7 @@ module.exports = function(gulp, config){
     });
 
     return [
-        gulp.parallel('styles', 'vendor', 'js', 'assets','html')
+        gulp.parallel('styles', 'vendor', 'app', 'assets', 'html')
         //,'watch'
     ];
 
