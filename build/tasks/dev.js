@@ -10,7 +10,7 @@ const babelify = require('babelify');
 const browserify = require('browserify');
 const source = require('vinyl-source-stream');
 const vueify = require('vueify');
-
+const buffer = require('vinyl-buffer');
 const postcss = require('gulp-postcss');
 const precss = require('precss');
 const cssnext = require('postcss-cssnext');
@@ -28,7 +28,7 @@ module.exports = function(gulp, config){
             postcssSimpleVars(),
             postcssNested()
         ];
-        
+
         return gulp.src(config.stylesPath)
             .pipe(sourcemaps.init())
             .pipe(postcss(plugins))
@@ -41,11 +41,8 @@ module.exports = function(gulp, config){
         return browserify(config.jsVendorEntryPointPaths)
             .transform(babelify)
             .bundle()
-			.pipe(sourcemaps.init())
             .pipe(source('vendor.js'))
-			.pipe(sourcemaps.write('maps'))
             .pipe(gulp.dest(config.DIST));
-        //.pipe(buffer())     // You need this if you want to continue using the stream with other plugins
     });
 
     gulp.task('app', () => {
@@ -53,11 +50,12 @@ module.exports = function(gulp, config){
             .transform(babelify)
             .transform(vueify)
             .bundle()
+			.pipe(source('app.js'))
+			.pipe(buffer())
 			.pipe(sourcemaps.init())
-            .pipe(source('app.js'))
 			.pipe(sourcemaps.write('maps'))
             .pipe(gulp.dest(config.DIST));
-        //.pipe(buffer())     // You need this if you want to continue using the stream with other plugins
+
     });
 
     gulp.task('assets', function(){
@@ -81,7 +79,7 @@ module.exports = function(gulp, config){
     });
 
     return [
-        gulp.parallel('styles', 'vendor', 'app', 'assets', 'html')
+        gulp.parallel( 'styles','vendor', 'app', 'assets', 'html') //
         //,'watch'
     ];
 
