@@ -2,9 +2,15 @@
 
 const cssnano = require('gulp-cssnano');
 const concat = require('gulp-concat');
-const uglify = require('gulp-uglify');
 const CacheBuster = require('gulp-cachebust');
 const cachebust = new CacheBuster();
+
+const uglify = require('gulp-uglify');
+const babelify = require('babelify');
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
+const vueify = require('vueify');
+const buffer = require('vinyl-buffer');
 
 const postcss = require('gulp-postcss');
 const precss = require('precss');
@@ -14,13 +20,6 @@ const postcssSimpleVars = require('postcss-simple-vars');
 const postcssNested = require('postcss-nested');
 
 module.exports = function(gulp, config){
-
-    gulp.task('vendor', function() {
-        return gulp.src(config.jslibsPaths)
-            .pipe(concat('vendor.js'))
-            .pipe(cachebust.resources())
-            .pipe(gulp.dest(config.DIST));
-    });
 
     gulp.task('styles', function() {
         const plugins = [
@@ -38,13 +37,28 @@ module.exports = function(gulp, config){
             .pipe(gulp.dest(config.DIST));
     });
 
-    gulp.task('js', function() {
-       return gulp.src(config.jsPaths)
-           .pipe(concat('app.js'))
-           .pipe(cachebust.resources())
-           .pipe(uglify())
-           .pipe(gulp.dest(config.DIST));
-    });
+	gulp.task('vendor', () => {
+		return browserify(config.jsVendorEntryPointPaths)
+			.transform(babelify)
+			.bundle()
+			.pipe(source('vendor.js'))
+			.pipe(buffer())
+			.pipe(uglify())
+			.pipe(cachebust.resources())
+			.pipe(gulp.dest(config.DIST));
+	});
+
+	gulp.task('app', () => {
+		return browserify(config.jsAppEntryPointPaths)
+			.transform(babelify)
+			.transform(vueify)
+			.bundle()
+			.pipe(source('app.js'))
+			.pipe(buffer())
+			//.pipe(uglify())
+			.pipe(cachebust.resources())
+			.pipe(gulp.dest(config.DIST));
+	});
 
     gulp.task('assets', function(){
        return gulp.src(config.assetsPaths)
@@ -58,7 +72,7 @@ module.exports = function(gulp, config){
     });
 
     return [
-        gulp.parallel('styles', 'vendor', 'js', 'assets')
+        gulp.parallel( 'vendor', 'app', 'assets') //'styles',
         ,'html'
     ];
 

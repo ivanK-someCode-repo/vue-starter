@@ -2,13 +2,13 @@
 
 const gulp = require('gulp');
 const config = require('./build/config.js');
-const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'dev';
+const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 //const packs = require('require-dir')('./build/tasks');
 let  packs = [];
 let tasks = [];
 
 packs.push(require('./build/tasks/common.js'));
-packs.push(isDevelopment ? require('./build/tasks/dev.js') : require('./build/tasks/prod.js'));
+packs.push(isDevelopment ? require('./build/tasks/development.js') : require('./build/tasks/production.js'));
 
 
 console.log(packs);

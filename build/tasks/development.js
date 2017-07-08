@@ -55,7 +55,6 @@ module.exports = function(gulp, config){
 			.pipe(sourcemaps.init())
 			.pipe(sourcemaps.write('maps'))
             .pipe(gulp.dest(config.DIST));
-
     });
 
     gulp.task('assets', function(){
@@ -79,7 +78,7 @@ module.exports = function(gulp, config){
     });
 
     return [
-        gulp.parallel( 'styles','vendor', 'app', 'assets', 'html') //
+        gulp.parallel( 'vendor', 'app', 'assets', 'html') //'styles',
         //,'watch'
     ];
 
