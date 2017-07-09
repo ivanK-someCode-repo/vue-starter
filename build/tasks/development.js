@@ -2,6 +2,9 @@
 
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
+const rename = require('gulp-rename');
+// const through2 = require('through2').obj;
+// const path = require('path');
 //const debug = require('gulp-debug');
 //const path = require('path');
 //const source = require('vinyl-source-stream');
@@ -57,10 +60,14 @@ module.exports = function(gulp, config){
             .pipe(gulp.dest(config.DIST));
     });
 
-    gulp.task('assets', function(){
-       return gulp.src(config.assetsPaths)
-           .pipe(gulp.dest(config.DIST));
-    });
+	gulp.task('assets', function(){
+		return gulp.src(config.assetsPaths)
+			.pipe(rename(function(filepath) {
+				console.log(filepath.dirname);
+				return filepath.dirname = '';//path.join(filepath.dirname.split(path.sep)[0], 'assets');
+			}))
+			.pipe(gulp.dest(config.DIST));
+	});
 
     gulp.task('html', function(){
        return gulp.src(config.indexHtmlPath)
