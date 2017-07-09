@@ -21,6 +21,7 @@ const postcssMixins = require('postcss-mixins');
 const postcssSimpleVars = require('postcss-simple-vars');
 const postcssNested = require('postcss-nested');
 
+const sourcemapify = require('sourcemapify');
 const urlAdjuster = require('gulp-css-url-adjuster');
 
 module.exports = function(gulp, config){
@@ -57,14 +58,15 @@ module.exports = function(gulp, config){
     });
 
     gulp.task('app', () => {
-        return browserify(config.jsAppEntryPointPaths)
-            .transform(babelify)
+        return browserify(config.jsAppEntryPointPaths, {debug: true})//, {debug: true}
+			//.plugin(sourcemapify, {root: 'maps/'})
+            .transform(babelify)//, {sourceMaps: true}
             .transform(vueify)
             .bundle()
 			.pipe(source('app.js'))
 			.pipe(buffer())
-			.pipe(sourcemaps.init())
-			.pipe(sourcemaps.write('maps'))
+			//.pipe(sourcemaps.init())
+			//.pipe(sourcemaps.write('maps'))
             .pipe(gulp.dest(config.DIST));
     });
 
