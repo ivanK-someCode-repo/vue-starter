@@ -21,6 +21,8 @@ const postcssMixins = require('postcss-mixins');
 const postcssSimpleVars = require('postcss-simple-vars');
 const postcssNested = require('postcss-nested');
 
+const urlAdjuster = require('gulp-css-url-adjuster');
+
 module.exports = function(gulp, config){
 
     gulp.task('styles', function() {
@@ -36,6 +38,12 @@ module.exports = function(gulp, config){
             .pipe(sourcemaps.init())
             .pipe(postcss(plugins))
             .pipe(concat('app.css'))
+			.pipe(urlAdjuster({
+				replace:  function(url){
+					//console.log(url.split('/').slice(-1)[0]);
+					return url.split('/').slice(-1)[0];
+				},
+			}))
             .pipe(sourcemaps.write('maps'))
             .pipe(gulp.dest(config.DIST));
     });
@@ -63,7 +71,7 @@ module.exports = function(gulp, config){
 	gulp.task('assets', function(){
 		return gulp.src(config.assetsPaths)
 			.pipe(rename(function(filepath) {
-				console.log(filepath.dirname);
+				//console.log(filepath.dirname);
 				return filepath.dirname = '';//path.join(filepath.dirname.split(path.sep)[0], 'assets');
 			}))
 			.pipe(gulp.dest(config.DIST));

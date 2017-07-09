@@ -37,6 +37,7 @@
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-cachebust": "0.0.6",
     "gulp-concat": "^2.6.1",
+    "gulp-css-url-adjuster": "^0.2.3",
     "gulp-cssnano": "^2.1.2",
     "gulp-if": "^2.0.2",
     "gulp-postcss": "^7.0.0",
