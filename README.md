@@ -19,12 +19,12 @@ Install:
     
     2) Latest npm:          https://docs.npmjs.com/getting-started/installing-node
     
-    3) Global gulp:         npm uninstall gulp -g && npm install gulpjs/gulp-cli#4.0 -g
+    3) Global gulp:         npm run gulp:global
     
-    4) Within project gulp: npm uninstall gulp && npm install gulpjs/gulp.git#4.0 --save-dev
+    4) Within project gulp: npm run gulp
+
+Build project:
     
-    5) npm install
+    1) npm i
     
-    6) set NODE_ENV=production
-    
-    6) gulp
+    2) npm run build
