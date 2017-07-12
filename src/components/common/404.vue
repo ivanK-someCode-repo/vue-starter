@@ -18,7 +18,7 @@ export default {
 	},
 	methods: {
 		goToIndex(){
-			Router.push({name: 'index'});
+			this.$router.push({name: 'index'});
 		}
 	}
 }

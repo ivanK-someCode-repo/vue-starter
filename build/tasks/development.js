@@ -20,8 +20,6 @@ const cssnext = require('postcss-cssnext');
 const postcssMixins = require('postcss-mixins');
 const postcssSimpleVars = require('postcss-simple-vars');
 const postcssNested = require('postcss-nested');
-
-const sourcemapify = require('sourcemapify');
 const urlAdjuster = require('gulp-css-url-adjuster');
 
 module.exports = function(gulp, config){
@@ -59,14 +57,13 @@ module.exports = function(gulp, config){
 
     gulp.task('app', () => {
         return browserify(config.jsAppEntryPointPaths, {debug: true})//, {debug: true}
-			//.plugin(sourcemapify, {root: 'maps/'})
             .transform(babelify)//, {sourceMaps: true}
             .transform(vueify)
             .bundle()
 			.pipe(source('app.js'))
 			.pipe(buffer())
-			//.pipe(sourcemaps.init())
-			//.pipe(sourcemaps.write('maps'))
+            .pipe(sourcemaps.init())
+			.pipe(sourcemaps.write('maps'))
             .pipe(gulp.dest(config.DIST));
     });
 
@@ -84,15 +81,15 @@ module.exports = function(gulp, config){
            .pipe(gulp.dest(config.DIST));
     });
 
-    gulp.task('watch', function(){
-       gulp.watch(config.jsPaths, gulp.series('js','html'));
-
-       gulp.watch(config.stylesPaths, gulp.series('less','html'));
-
-       gulp.watch(config.assetsPaths, gulp.series('assets'));
-
-       gulp.watch(config.indexHtmlPath, gulp.series('html'));
-    });
+    // gulp.task('watch', function(){
+    //    gulp.watch(config.jsPaths, gulp.series('js','html'));
+    //
+    //    gulp.watch(config.stylesPaths, gulp.series('less','html'));
+    //
+    //    gulp.watch(config.assetsPaths, gulp.series('assets'));
+    //
+    //    gulp.watch(config.indexHtmlPath, gulp.series('html'));
+    // });
 
     return [
         gulp.parallel( 'styles','vendor', 'app', 'assets', 'html') //

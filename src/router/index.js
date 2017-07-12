@@ -1,5 +1,6 @@
 import Index from '../components/index/index.vue';
 import NotFound from '../components/common/404.vue';
+debugger;
 Vue.use(Router);
 
 export default new Router({

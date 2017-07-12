@@ -6,6 +6,7 @@ module.exports = {
 	DIST: './public',
 	SRC_BASE: src,
 	allFiles: src + '**/*.*',
+	allPublicFiles: './public/**/*.*',
 	indexHtmlPath: src + 'index.html',
 	jsPaths: [src + '**/*.js'],
 	jsVendorEntryPointPaths: [src + 'vendor-index.js'],

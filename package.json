@@ -74,7 +74,6 @@
     "postcss-nested": "^2.0.2",
     "postcss-simple-vars": "^4.0.0",
     "precss": "^2.0.0",
-    "sourcemapify": "^1.1.2",
     "through2": "^2.0.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",

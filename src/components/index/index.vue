@@ -1,6 +1,6 @@
 <template>
 	<div class="test">
-		<h1 @click="msg = 'clicked'">{{ msg }}</h1>
+		<h1 @click="msg3 = 'clicked'">{{ msg3 }}</h1>
 	</div>
 </template>
 
@@ -9,7 +9,8 @@ export default {
 	name: 'index',
 	data: function () {
 		return {
-			msg2: 'test msg'
+			msg2: 'test msg',
+			msg3: this.$store.state.welcome
 		};
 	},
 	computed: {

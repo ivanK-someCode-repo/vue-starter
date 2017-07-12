@@ -4,6 +4,9 @@ const cssnano = require('gulp-cssnano');
 const concat = require('gulp-concat');
 const CacheBuster = require('gulp-cachebust');
 const cachebust = new CacheBuster();
+const rename = require('gulp-rename');
+const urlAdjuster = require('gulp-css-url-adjuster');
+const sourcemaps = require('gulp-sourcemaps');
 
 const uglify = require('gulp-uglify');
 const babelify = require('babelify');
@@ -30,10 +33,18 @@ module.exports = function(gulp, config){
             postcssNested()
         ];
         return gulp.src(config.stylesPaths)
+            .pipe(sourcemaps.init())
             .pipe(postcss(plugins))
-            .pipe(cssnano({ minifyFontValues: false, discardUnused: false }))
+            .pipe(urlAdjuster({
+                replace:  function(url){
+                    //console.log(url.split('/').slice(-1)[0]);
+                    return url.split('/').slice(-1)[0];
+                },
+            }))
             .pipe(concat('app.css'))
+            .pipe(cssnano({ minifyFontValues: false, discardUnused: false }))
             .pipe(cachebust.resources())
+            .pipe(sourcemaps.write('maps'))
             .pipe(gulp.dest(config.DIST));
     });
 
@@ -49,19 +60,25 @@ module.exports = function(gulp, config){
 	});
 
 	gulp.task('app', () => {
-		return browserify(config.jsAppEntryPointPaths)
-			.transform(babelify)
+		return browserify(config.jsAppEntryPointPaths, {debug: true})
+			.transform(babelify, {sourceMaps: true})
 			.transform(vueify)
 			.bundle()
 			.pipe(source('app.js'))
 			.pipe(buffer())
-			//.pipe(uglify())
+            .pipe(sourcemaps.init())
+			.pipe(uglify())
 			.pipe(cachebust.resources())
+            .pipe(sourcemaps.write('maps'))
 			.pipe(gulp.dest(config.DIST));
 	});
 
     gulp.task('assets', function(){
        return gulp.src(config.assetsPaths)
+           .pipe(rename(function(filepath) {
+               //console.log(filepath.dirname);
+               return filepath.dirname = '';//path.join(filepath.dirname.split(path.sep)[0], 'assets');
+           }))
            .pipe(gulp.dest(config.DIST));
     });
 

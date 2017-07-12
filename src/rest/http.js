@@ -7,11 +7,12 @@ let http = {
 };
 
 function popRequest (req) {
+	debugger;
 	let index = http.pendingRequests.findIndex(function (elem) {
 		return req === elem;
 	});
 	if (index === -1) {
-		console.log('Write to kdmatrosov@yandex.ru');
+		console.log('Write to ...@yandex.ru');
 		return;
 	}
 	http.pendingRequests.splice(index, 1);
@@ -23,15 +24,18 @@ let flushFunc,
 
 const default_interceptors = [{
 	request: function (req) {
+		debugger;
 		req.cancelToken = cancelToken;
 		http.pendingRequests.push(req);
 		return req;
 	},
 	response: function (response) {
+        debugger;
 		popRequest(response.config);
 		return response.data;
 	},
 	error: function (error) {
+        debugger;
 		popRequest(error.config);
 		Router.push('login');
 		console.log('logout', error, error.response, error.request, error.message, error.config);
@@ -47,6 +51,7 @@ function RestCreator (settings) {
 		}
 	});
 	service.flush = function () {
+        debugger;
 		flushFunc();
 		cancelToken = new cancelCreator((c) => flushFunc = c);
 	};
