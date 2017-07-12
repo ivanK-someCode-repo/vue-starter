@@ -2,7 +2,7 @@
 	<div class="not-found">
 		<div class="not-found__text">{{text}}</div>
 			<div>
-			<button @click="goToIndex">возврат</button>
+			<button @click="goToIndex">Назад</button>
 		</div>
 	</div>
 </template>
@@ -13,7 +13,7 @@ export default {
 	name: 'not-found',
 	data () {
 		return {
-			text: 'иногда есть шанс избежать необратимых последствий, жми "возврат"'
+			text: 'иногда есть шанс избежать необратимых последствий, жми "Назад" '
 		}
 	},
 	methods: {

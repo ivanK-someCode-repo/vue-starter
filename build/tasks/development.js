@@ -92,7 +92,7 @@ module.exports = function(gulp, config){
     // });
 
     return [
-        gulp.parallel( 'styles','vendor', 'app', 'assets', 'html') //
+        gulp.parallel( 'styles', 'vendor', 'app', 'assets', 'html') //
         //,'watch'
     ];
 };
