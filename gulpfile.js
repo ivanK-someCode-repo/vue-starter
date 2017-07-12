@@ -21,7 +21,11 @@ gulp.task('watch', function(){
 
 gulp.task('serve', function(){
     browsersync.init({
-        proxy: 'localhost:3000'
+        server: {
+            baseDir: './public'
+        },
+        port: 3005
+        //proxy: 'localhost:3005'
     });
 
     browsersync.watch(config.allPublicFiles).on('change', browsersync.reload);
