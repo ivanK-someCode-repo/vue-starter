@@ -55,7 +55,9 @@ module.exports = function(gulp, config){
 				},
 			}))
             .pipe(sourcemaps.write('maps'))
-            .pipe(gulp.dest(config.DIST));
+            .pipe(gulp.dest(config.DIST))
+
+            .pipe(browsersync.stream());
     });
 
     gulp.task('vendor', () => {
@@ -78,7 +80,8 @@ module.exports = function(gulp, config){
                 .pipe(buffer())
                 //.pipe(sourcemaps.init())
                 //.pipe(sourcemaps.write('maps'))
-                .pipe(gulp.dest(config.DIST));
+                .pipe(gulp.dest(config.DIST))
+                //.pipe(reload({stream: true}));
         }
 
         b.on('update', bundle);
@@ -88,16 +91,20 @@ module.exports = function(gulp, config){
 
 	gulp.task('assets', function(){
 		return gulp.src(config.assetsPaths)
+            .pipe(cached('assets'))
+            .pipe(remember('assets'))
 			.pipe(rename(function(filepath) {
 				//console.log(filepath.dirname);
 				return filepath.dirname = '';//path.join(filepath.dirname.split(path.sep)[0], 'assets');
 			}))
-			.pipe(gulp.dest(config.DIST));
+			.pipe(gulp.dest(config.DIST))
+
+            .pipe(browsersync.stream());
 	});
 
     gulp.task('html', function(){
        return gulp.src(config.indexHtmlPath)
-           .pipe(gulp.dest(config.DIST));
+           .pipe(gulp.dest(config.DIST))
     });
 
     gulp.task('reload', function(cb){
@@ -106,9 +113,9 @@ module.exports = function(gulp, config){
     });
 
     gulp.task('watch', function(){
-        gulp.watch(config.jsPaths, gulp.series('app', 'html', 'reload'));
+        gulp.watch(config.jsPaths, gulp.series('app', 'reload'));
 
-        const stylesWatcher = gulp.watch(config.stylesPaths, gulp.series('styles','html', 'reload'));
+        const stylesWatcher = gulp.watch(config.stylesPaths, gulp.series('styles'));
 
         stylesWatcher.on('change', function (event) {
             if (event.type === 'deleted') {                   // if a file is deleted, forget about it
@@ -117,7 +124,14 @@ module.exports = function(gulp, config){
             }
         });
 
-        gulp.watch(config.assetsPaths, gulp.series('assets', 'reload'));
+        const assetsWatcher = gulp.watch(config.assetsPaths, gulp.series('assets'));
+
+        assetsWatcher.on('change', function (event) {
+            if (event.type === 'deleted') {
+                delete cached.caches.styles[event.path];
+                remember.forget('assets', event.path);
+            }
+        });
 
         gulp.watch(config.indexHtmlPath, gulp.series('html', 'reload'));
     });
