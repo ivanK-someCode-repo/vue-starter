@@ -8,7 +8,7 @@ module.exports = {
 	allFiles: src + '**/*.*',
 	allPublicFiles: '/public/**/*.*',
 	indexHtmlPath: src + 'index.html',
-	jsPaths: [src + '**/*.js'],
+	jsPaths: [src + '**/*.{js,vue}'],
 	jsVendorEntryPointPaths: [src + 'vendor-index.js'],
 	jsAppEntryPointPaths: [src + 'app-index'],
 	stylesPaths: [src + '**/*.pcss'],

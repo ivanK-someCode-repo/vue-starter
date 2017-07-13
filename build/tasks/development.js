@@ -3,17 +3,26 @@
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
+const browsersync = require('browser-sync').create();
+const reload = browsersync.reload;
+
 // const through2 = require('through2').obj;
 // const path = require('path');
 //const debug = require('gulp-debug');
 //const path = require('path');
 //const source = require('vinyl-source-stream');
+
 const uglify = require('gulp-uglify');
 const babelify = require('babelify');
 const browserify = require('browserify');
+const watchify = require('watchify');
 const source = require('vinyl-source-stream');
 const vueify = require('vueify');
 const buffer = require('vinyl-buffer');
+
+const cached = require('gulp-cached');
+const remember = require('gulp-remember');
+
 const postcss = require('gulp-postcss');
 const precss = require('precss');
 const cssnext = require('postcss-cssnext');
@@ -34,8 +43,10 @@ module.exports = function(gulp, config){
         ];
 
         return gulp.src(config.stylesPaths)
+            .pipe(cached('styles'))
             .pipe(sourcemaps.init())
             .pipe(postcss(plugins))
+            .pipe(remember('styles'))
             .pipe(concat('app.css'))
 			.pipe(urlAdjuster({
 				replace:  function(url){
@@ -56,15 +67,23 @@ module.exports = function(gulp, config){
     });
 
     gulp.task('app', () => {
-        return browserify(config.jsAppEntryPointPaths, {debug: true})//, {debug: true}
-            .transform(babelify)//, {sourceMaps: true}
-            .transform(vueify)
-            .bundle()
-			.pipe(source('app.js'))
-			.pipe(buffer())
-            .pipe(sourcemaps.init())
-			.pipe(sourcemaps.write('maps'))
-            .pipe(gulp.dest(config.DIST));
+        const b = watchify(browserify(config.jsAppEntryPointPaths, {debug: true}));
+
+        function bundle(){
+            return b
+                .transform(babelify, {sourceMaps: true})
+                .transform(vueify)
+                .bundle()
+                .pipe(source('app.js'))
+                .pipe(buffer())
+                //.pipe(sourcemaps.init())
+                //.pipe(sourcemaps.write('maps'))
+                .pipe(gulp.dest(config.DIST));
+        }
+
+        b.on('update', bundle);
+
+        return bundle();
     });
 
 	gulp.task('assets', function(){
@@ -81,18 +100,45 @@ module.exports = function(gulp, config){
            .pipe(gulp.dest(config.DIST));
     });
 
-    // gulp.task('watch', function(){
-    //    gulp.watch(config.jsPaths, gulp.series('js','html'));
-    //
-    //    gulp.watch(config.stylesPaths, gulp.series('less','html'));
-    //
-    //    gulp.watch(config.assetsPaths, gulp.series('assets'));
-    //
-    //    gulp.watch(config.indexHtmlPath, gulp.series('html'));
-    // });
+    gulp.task('reload', function(cb){
+        reload();
+        cb();
+    });
+
+    gulp.task('watch', function(){
+        gulp.watch(config.jsPaths, gulp.series('app', 'html', 'reload'));
+
+        const stylesWatcher = gulp.watch(config.stylesPaths, gulp.series('styles','html', 'reload'));
+
+        stylesWatcher.on('change', function (event) {
+            if (event.type === 'deleted') {                   // if a file is deleted, forget about it
+                delete cached.caches.styles[event.path];       // gulp-cached remove api
+                remember.forget('styles', event.path);         // gulp-remember remove api
+            }
+        });
+
+        gulp.watch(config.assetsPaths, gulp.series('assets', 'reload'));
+
+        gulp.watch(config.indexHtmlPath, gulp.series('html', 'reload'));
+    });
+
+// gulp.task('watch', function(){
+//     gulp.watch(config.allFiles, gulp.series(tasks, 'reload'));
+// });
+
+    gulp.task('serve', function(){
+        browsersync.init({
+            server: {
+                baseDir: './public'
+            },
+            port: 3005
+            //proxy: 'localhost:3005'
+        });
+        //browsersync.watch(config.allPublicFiles).on('change', browsersync.reload);
+    });
 
     return [
-        gulp.parallel( 'styles', 'vendor', 'app', 'assets', 'html') //
-        //,'watch'
+        gulp.parallel( 'styles', 'vendor', 'app', 'assets', 'html'),
+        gulp.parallel('watch', 'serve')
     ];
 };

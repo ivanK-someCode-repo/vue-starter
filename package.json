@@ -45,7 +45,7 @@
   "homepage": "https://github.com/ivanK-someCode-repo/vue-starter#readme",
   "dependencies": {
     "axios": "^0.16.2",
-    "vue": "^2.2.4",
+    "vue": "^2.4.1",
     "vue-router": "^2.3.0",
     "vuex": "^2.2.1"
   },
@@ -60,11 +60,13 @@
     "del": "^3.0.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-cachebust": "0.0.6",
+    "gulp-cached": "^1.1.1",
     "gulp-concat": "^2.6.1",
     "gulp-css-url-adjuster": "^0.2.3",
     "gulp-cssnano": "^2.1.2",
     "gulp-if": "^2.0.2",
     "gulp-postcss": "^7.0.0",
+    "gulp-remember": "^0.3.1",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.6.0",
     "gulp-uglify": "^3.0.0",
@@ -77,6 +79,7 @@
     "through2": "^2.0.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "vueify": "^9.4.1"
+    "vueify": "^9.4.1",
+    "watchify": "^3.9.0"
   }
 }
