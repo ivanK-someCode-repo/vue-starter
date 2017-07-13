@@ -97,9 +97,7 @@ module.exports = function(gulp, config){
 				//console.log(filepath.dirname);
 				return filepath.dirname = '';//path.join(filepath.dirname.split(path.sep)[0], 'assets');
 			}))
-			.pipe(gulp.dest(config.DIST))
-
-            .pipe(browsersync.stream());
+			.pipe(gulp.dest(config.DIST));
 	});
 
     gulp.task('html', function(){
@@ -124,7 +122,7 @@ module.exports = function(gulp, config){
             }
         });
 
-        const assetsWatcher = gulp.watch(config.assetsPaths, gulp.series('assets'));
+        const assetsWatcher = gulp.watch(config.assetsPaths, gulp.series('assets', 'reload'));
 
         assetsWatcher.on('change', function (event) {
             if (event.type === 'deleted') {
